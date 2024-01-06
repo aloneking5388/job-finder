@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const API_URL = "https://job-finder-snqi.onrender.com";
+const API_URL = "https://job-finder-snqi.onrender.com/api-v1";
 
 export const API =axios.create({
     baseURL: API_URL,
