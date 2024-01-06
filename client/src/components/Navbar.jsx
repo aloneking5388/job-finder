@@ -6,7 +6,6 @@ import { HiMenuAlt3 } from "react-icons/hi";
 import { AiOutlineClose, AiOutlineLogout } from "react-icons/ai";
 import { Link } from "react-router-dom";
 import CustomButton from "./CustomButton";
-import { users } from "../utils/data";
 import { useDispatch, useSelector } from "react-redux";
 import { Logout } from "../redux/userSlice";
 
