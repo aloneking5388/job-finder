@@ -8,6 +8,7 @@ import {
   CompanyProfile,
   FindJobs,
   JobDetail,
+  Notfound,
   UploadJob,
   UserProfile,
 } from "./pages";
@@ -57,6 +58,7 @@ function App() {
 
         <Route path='/about-us' element={<About />} />
         <Route path='/user-auth' element={<AuthPage />} />
+        <Route path='/*' element={<Notfound />} />
       </Routes>
       {user && <Footer />}
     </main>
