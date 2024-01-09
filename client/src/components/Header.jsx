@@ -51,6 +51,8 @@ const Header = ({
         <div className='w-full z-10'>
           <div className='mb-8'>
             <p className='text-slate-700 font-bold text-4xl'>{title}</p>
+            <p className='sm:text-slate-500 text-blue-950 sm:w-68 font-medium max-w-[50%] sm:font-semibold text-[8px] sm:text-[16px]'>Introductory offer - first 25000 applicant's either get a guaranteed.
+            <br/> job or a cash prize of 1,00,000 ₹ if we aren't able to land you a job! </p>
           </div>
 
           <div className='w-full flex items-center justify-around bg-white px-2 md:px-5 py-2.5 md:py-6 shadow-2xl rounded-full'>

@@ -1,4 +1,4 @@
-import { FaFacebookF, FaTwitter, FaLinkedinIn } from "react-icons/fa";
+import { FaFacebookF, FaLinkedinIn, FaYoutube } from "react-icons/fa";
 import { FiInstagram } from "react-icons/fi";
 import { footerLinks } from "../utils/data";
 import { Link } from "react-router-dom";
@@ -75,17 +75,17 @@ const Footer = () => {
             </div>
 
             <span className='inline-flex lg:ml-auto lg:mt-0 mt-6 w-full justify-center md:justify-start md:w-auto'>
-              <a className='text-white text-xl  hover:scale-125 ease-in-out duration-300'>
+              <a href="https://www.facebook.com/profile.php?id=61553582699069&mibextid=ZbWKwL" className='text-white text-xl  hover:scale-125 ease-in-out duration-300'>
                 <FaFacebookF />
               </a>
-              <a className='ml-3 text-white text-xl  hover:scale-125 ease-in-out duration-300'>
-                <FaTwitter />
+              <a href="https://www.youtube.com/@Kaamyabjobportal" className='ml-3 text-white text-xl  hover:scale-125 ease-in-out duration-300'>
+                <FaYoutube />
               </a>
-              <a className='ml-3 text-white text-xl  hover:scale-125 ease-in-out duration-300'>
+              <a href="https://www.instagram.com/kaamyabjobportal?igsh=ZHVnOWZramFybmN4" className='ml-3 text-white text-xl  hover:scale-125 ease-in-out duration-300'>
                 <FiInstagram />
               </a>
 
-              <a className='ml-3 text-white text-xl  hover:scale-125 ease-in-out duration-300'>
+              <a href="https://www.linkedin.com/in/kaamyabjob-portal-29378629b?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app" className='ml-3 text-white text-xl  hover:scale-125 ease-in-out duration-300'>
                 <FaLinkedinIn />
               </a>
             </span>
