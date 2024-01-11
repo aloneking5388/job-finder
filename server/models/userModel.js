@@ -33,9 +33,7 @@ const userSchema = new mongoose.Schema(
     cvUrl: { type: String },
     jobTitle: { type: String },
     about: { type: String },
-    jobapply: {
-      type: Schema.Types.ObjectId, ref: "Companies"
-    }
+    jobapply: [{ type: Schema.Types.ObjectId, ref: "Companies" }]
   },
   { timestamps: true }
 );
