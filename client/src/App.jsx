@@ -6,9 +6,13 @@ import {
   AuthPage,
   Companies,
   CompanyProfile,
+  ContactUs,
   FindJobs,
   JobDetail,
   Notfound,
+  PrivacyPolicy,
+  RefundPolicy,
+  TermsAndConditions,
   UploadJob,
   UserProfile,
 } from "./pages";
@@ -57,6 +61,10 @@ function App() {
         </Route>
 
         <Route path='/about-us' element={<About />} />
+        <Route path='/privacy-policy' element={<PrivacyPolicy />} />
+        <Route path='/refund-policy' element={<RefundPolicy />} />
+        <Route path='/terms-and-condition' element={<TermsAndConditions />} />
+        <Route path='/contact-us' element={<ContactUs />} />
         <Route path='/user-auth' element={<AuthPage />} />
         <Route path='/*' element={<Notfound />} />
       </Routes>

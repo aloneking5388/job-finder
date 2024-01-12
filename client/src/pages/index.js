@@ -7,6 +7,10 @@ import UploadJob from "./UploadJob";
 import About from "./About";
 import JobDetail from "./JobDetail";
 import Notfound from "./Notfound";
+import TermsAndConditions from "./TermsAndConditions";
+import ContactUs from "./ContactUs";
+import PrivacyPolicy from "./PrivacyPolicy";
+import RefundPolicy from "./RefundPolicy";
 
 export {
   FindJobs,
@@ -17,5 +21,9 @@ export {
   UploadJob,
   About,
   JobDetail,
-  Notfound
+  Notfound,
+  TermsAndConditions,
+  ContactUs,
+  PrivacyPolicy,
+  RefundPolicy
 };
