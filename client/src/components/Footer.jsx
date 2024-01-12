@@ -28,25 +28,37 @@ const Footer = () => {
       <div className='bg-[#1d4ed8] '>
         <div className='container px-5 py-20 mx-auto '>
           <div className='w-full flex flex-wrap gap-10 justify-between -mb-10 -px-4'>
-            {footerLinks.map(({ id, title, links }) => (
-              <div className='w-auto px-4 ' key={id + title}>
-                <h2 className='font-medium text-white tracking-widest text-sm mb-3'>
-                  {title}
-                </h2>
-
-                <div className='mb-10 flex flex-col gap-3 '>
-                  {links.map((link, index) => (
-                    <Link
-                      key={link + index}
-                      to='/'
-                      className='text-gray-300 text-sm hover:text-white '
-                    >
-                      {link}
-                    </Link>
-                  ))}
+              <div className='w-auto px-4 '>
+                <Link to="/" className='font-bold text-white tracking-widest text-xl gap-6'>
+                  Kaam yab <span className="text-slate-400">job portal</span>
+                </Link>
+                <div className='mb-1 text-sm flex flex-col'>
+                  <h1> 1129, RajaJi Puram Lucknow</h1>
+                    <p> kaamyabjobportal@gmail.com</p>
+                    <p> +91 5224959793</p>
                 </div>
               </div>
-            ))}
+              <div className='w-auto px-4 '>
+                <h1 className="font-bold ">POLICY</h1>
+                <div className='mb-6 flex flex-col gap-3 '>
+                  <ul className="text-sm font-medium">
+                    <li><Link to="/privacy-policy">Privacy Policy</Link></li>
+                    <li><Link to="/refund-policy">Refund Policy</Link></li>
+                    <li><Link to="/terms-and-condition">TERMS AND CONDITIONS</Link></li>
+                    <li><Link to="/about-us">About Us</Link></li>
+                  </ul>
+                </div>
+              </div>
+              <div className='w-auto px-4 mr-8'>
+                <h1 className="font-bold ">SUPPORT</h1>
+                <div className='mb-6 flex flex-col gap-3 '>
+                  <ul className="text-sm font-medium">
+                    <li><Link to="/contact-us">Contact Us</Link></li>
+                    <li><Link to="/companies">Company</Link></li>
+                    <li><Link to="/about-us">About Us</Link></li>
+                  </ul>
+                </div>
+              </div>
           </div>
         </div>
 
