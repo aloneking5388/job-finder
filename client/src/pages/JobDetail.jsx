@@ -72,7 +72,7 @@ const JobDetail = () => {
         {isFetching ? (
           <Loading />
         ) : (
-          <div className='w-full h-fit md:w-2/3 2xl:2/4 bg-white px-5 py-10 md:px-10 shadow-md'>
+          <div className='w-full h-fit rounded-xl md:w-2/3 2xl:2/4 bg-white px-5 py-10 md:px-10 shadow-md'>
           <div className='w-full flex items-center justify-between'>
             <div className='w-3/4 flex gap-2'>
               <img

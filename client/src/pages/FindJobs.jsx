@@ -109,7 +109,7 @@ const FindJobs = () => {
       />
 
       <div className='container mx-auto flex gap-6 2xl:gap-10 md:px-5 py-0 md:py-6 bg-[#f7fdfd]'>
-        <div className='hidden md:flex flex-col w-1/6 h-fit bg-white shadow-sm'>
+        <div className='hidden items-center md:flex flex-col w-1/6 h-fit bg-white shadow-sm'>
           <p className='text-lg font-semibold text-slate-600'>Filter Search</p>
 
           <div className='py-2'>
