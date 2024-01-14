@@ -1,6 +1,7 @@
 import express from "express";
 import userAuth from "../middlewares/authMiddleware.js";
 import {
+  applyJob,
   createJob,
   deleteJobPost,
   getJobById,
@@ -15,6 +16,9 @@ router.post("/upload-job", userAuth, createJob);
 
 // IPDATE JOB
 router.put("/update-job/:jobId", userAuth, updateJob);
+
+// Apply JOB
+router.post("/apply-job/:jobId", userAuth, applyJob);
 
 // GET JOB POST
 router.get("/find-jobs", getJobPosts);

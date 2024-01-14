@@ -33,7 +33,6 @@ const Footer = () => {
                   Kaam yab <span className="text-slate-400">job portal</span>
                 </Link>
                 <div className='mb-1 text-sm flex flex-col'>
-                  <h1> 1129, RajaJi Puram Lucknow</h1>
                     <p> kaamyabjobportal@gmail.com</p>
                     <p> +91 5224959793</p>
                 </div>
@@ -45,7 +44,6 @@ const Footer = () => {
                     <li><Link to="/privacy-policy">Privacy Policy</Link></li>
                     <li><Link to="/refund-policy">Refund Policy</Link></li>
                     <li><Link to="/terms-and-condition">TERMS AND CONDITIONS</Link></li>
-                    <li><Link to="/about-us">About Us</Link></li>
                   </ul>
                 </div>
               </div>
@@ -54,7 +52,6 @@ const Footer = () => {
                 <div className='mb-6 flex flex-col gap-3 '>
                   <ul className="text-sm font-medium">
                     <li><Link to="/contact-us">Contact Us</Link></li>
-                    <li><Link to="/companies">Company</Link></li>
                     <li><Link to="/about-us">About Us</Link></li>
                   </ul>
                 </div>
@@ -119,7 +116,7 @@ const Footer = () => {
             </p>
 
             <span className='sm:ml-auto sm:mt-0 mt-2 sm:w-auto w-full sm:text-left text-center text-gray-300 text-sm'>
-              Designed by kaalcoders
+              Designed by Alone King
             </span>
           </div>
         </div>

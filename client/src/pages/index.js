@@ -11,6 +11,8 @@ import TermsAndConditions from "./TermsAndConditions";
 import ContactUs from "./ContactUs";
 import PrivacyPolicy from "./PrivacyPolicy";
 import RefundPolicy from "./RefundPolicy";
+import Success from "./Success";
+import Cancel from "./Cancel";
 
 export {
   FindJobs,
@@ -25,5 +27,7 @@ export {
   TermsAndConditions,
   ContactUs,
   PrivacyPolicy,
-  RefundPolicy
+  RefundPolicy,
+  Success,
+  Cancel
 };

@@ -2,13 +2,14 @@ import { useEffect, useState } from "react";
 import { Linkedin } from "../assets";
 import moment from "moment";
 import { AiOutlineSafetyCertificate } from "react-icons/ai";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { jobs } from "../utils/data";
 import { CustomButton, JobCard, Loading } from "../components";
 import { useSelector } from "react-redux";
 import { apiRequest } from "../utils";
 
 const JobDetail = () => {
+  const naviget = useNavigate()
   const { id } = useParams();
   const { user } = useSelector((state) => state.user);
   const [job, setJob] = useState(null);
@@ -55,6 +56,10 @@ const JobDetail = () => {
       console.log(error)
     }
   }
+  const handleClick = () => {
+      naviget("/Success")
+  }
+
   useEffect(() => {
     id && getJobDetails()
     window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
@@ -200,6 +205,7 @@ const JobDetail = () => {
               ) : (
                 <CustomButton
               title='Apply Now'
+              onClick={handleClick}
               containerStyles={`w-full flex items-center justify-center text-white bg-black py-3 px-5 outline-none rounded-full text-base`}
             />
               )

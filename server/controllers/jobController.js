@@ -1,28 +1,14 @@
 import mongoose from "mongoose";
 import Jobs from "../models/jobsModel.js";
+import Users from "../models/userModel.js";
 import Companies from "../models/companiesModel.js";
 
 export const createJob = async (req, res, next) => {
   try {
-    const {
-      jobTitle,
-      jobType,
-      location,
-      salary,
-      vacancies,
-      experience,
-      desc,
-      requirements,
-    } = req.body;
+    const { jobTitle, jobType, location, salary, vacancies, experience, desc, requirements, } = req.body;
 
-    if (
-      !jobTitle ||
-      !jobType ||
-      !location ||
-      !salary ||
-      !requirements ||
-      !desc
-    ) {
+    if ( !jobTitle || !jobType || !location || !salary || !requirements || !desc ) 
+    {
       next("Please Provide All Required Fields");
       return;
     }
@@ -32,16 +18,7 @@ export const createJob = async (req, res, next) => {
     if (!mongoose.Types.ObjectId.isValid(id))
       return res.status(404).send(`No Company with id: ${id}`);
 
-    const jobPost = {
-      jobTitle,
-      jobType,
-      location,
-      salary,
-      vacancies,
-      experience,
-      detail: { desc, requirements },
-      company: id,
-    };
+    const jobPost = { jobTitle, jobType, location, salary, vacancies, experience, detail: { desc, requirements }, company: id, };
 
     const job = new Jobs(jobPost);
     await job.save();
@@ -58,6 +35,7 @@ export const createJob = async (req, res, next) => {
       success: true,
       message: "Job Posted SUccessfully",
       job,
+      updateCompany
     });
   } catch (error) {
     console.log(error);
@@ -192,6 +170,7 @@ export const getJobPosts = async (req, res, next) => {
       data: jobs,
       page,
       numOfPage,
+      skip
     });
   } catch (error) {
     console.log(error);
@@ -257,5 +236,16 @@ export const deleteJobPost = async (req, res, next) => {
   } catch (error) {
     console.log(error);
     res.status(404).json({ message: error.message });
+  }
+};
+
+export const applyJob = async (req, res, next) => {
+  try {
+    return res.status(200).json({
+      message: "ok"
+    })
+    next()
+  } catch (error) {
+    console.log(error)
   }
 };

@@ -4,6 +4,7 @@ import { Footer, Navbar } from "./components";
 import {
   About,
   AuthPage,
+  Cancel,
   Companies,
   CompanyProfile,
   ContactUs,
@@ -12,6 +13,7 @@ import {
   Notfound,
   PrivacyPolicy,
   RefundPolicy,
+  Success,
   TermsAndConditions,
   UploadJob,
   UserProfile,
@@ -65,6 +67,8 @@ function App() {
         <Route path='/refund-policy' element={<RefundPolicy />} />
         <Route path='/terms-and-condition' element={<TermsAndConditions />} />
         <Route path='/contact-us' element={<ContactUs />} />
+        <Route path='/cancel' element={<Cancel />} />
+        <Route path='/success' element={<Success />} />
         <Route path='/user-auth' element={<AuthPage />} />
         <Route path='/*' element={<Notfound />} />
       </Routes>
