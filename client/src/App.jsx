@@ -5,6 +5,7 @@ import {
   About,
   AuthPage,
   Cancel,
+  CheckOut,
   Companies,
   CompanyProfile,
   ContactUs,
@@ -70,6 +71,7 @@ function App() {
         <Route path='/cancel' element={<Cancel />} />
         <Route path='/success' element={<Success />} />
         <Route path='/user-auth' element={<AuthPage />} />
+        <Route path='/checkout' element={<CheckOut />} />
         <Route path='/*' element={<Notfound />} />
       </Routes>
       {user && <Footer />}

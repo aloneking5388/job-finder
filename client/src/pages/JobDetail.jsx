@@ -1,12 +1,14 @@
 import { useEffect, useState } from "react";
-import { Linkedin } from "../assets";
+import { Elements } from "@stripe/react-stripe-js";
+import { loadStripe } from "@stripe/stripe-js";
 import moment from "moment";
 import { AiOutlineSafetyCertificate } from "react-icons/ai";
 import { useNavigate, useParams } from "react-router-dom";
-import { jobs } from "../utils/data";
 import { CustomButton, JobCard, Loading } from "../components";
 import { useSelector } from "react-redux";
 import { apiRequest } from "../utils";
+
+
 
 const JobDetail = () => {
   const naviget = useNavigate()
@@ -56,8 +58,23 @@ const JobDetail = () => {
       console.log(error)
     }
   }
-  const handleClick = () => {
-      naviget("/Success")
+  const handleClick = async () => {
+  try { 
+    const res = await apiRequest({
+      url: "/jobs/apply-job/" + job?._id,
+      token: user?.token,
+      method: "POST"
+      });
+      
+      if(res?.success){
+        naviget("/Success")
+      } else {
+        naviget("/checkout")
+      }
+        
+      } catch (error) {
+        
+      }
   }
 
   useEffect(() => {

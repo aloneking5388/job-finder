@@ -26,6 +26,10 @@ const userSchema = new mongoose.Schema(
       minlength: [6, "Password length should be greater than 6 character"],
       select: true,
     },
+    stripeCustomer: {
+      type: String,
+      default: null
+  },
     accountType: { type: String, default: "seeker" },
     contact: { type: String },
     location: { type: String },
@@ -33,7 +37,7 @@ const userSchema = new mongoose.Schema(
     cvUrl: { type: String },
     jobTitle: { type: String },
     about: { type: String },
-    jobapply: [{ type: Schema.Types.ObjectId, ref: "Jobs" }]
+    jobApply: { type: Schema.Types.ObjectId, ref: "Jobs" }
   },
   { timestamps: true }
 );

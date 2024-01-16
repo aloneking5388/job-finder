@@ -13,6 +13,7 @@ import PrivacyPolicy from "./PrivacyPolicy";
 import RefundPolicy from "./RefundPolicy";
 import Success from "./Success";
 import Cancel from "./Cancel";
+import CheckOut from "./CheckOut";
 
 export {
   FindJobs,
@@ -29,5 +30,6 @@ export {
   PrivacyPolicy,
   RefundPolicy,
   Success,
-  Cancel
+  Cancel,
+  CheckOut
 };
