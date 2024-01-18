@@ -1,33 +1,23 @@
 import React from 'react';
-import { useStripe, useElements, CardElement } from '@stripe/react-stripe-js';
-import axios from 'axios';
 
 const CheckOutForm = () => {
-  const stripe = useStripe();
-  const elements = useElements();
-
-  const handleSubscription = async (priceId) => {
-    const { data } = await axios.post('http://localhost:5000/api-v1/users/create-checkout-session', { priceId });
-
-    const result = await stripe.redirectToCheckout({
-      sessionId: data.id,
-    });
-
-    if (result.error) {
-      console.error(result.error.message);
-    }
-  };
 
   return (
-    <div className='flex bg-slate-200 w-96 rounded-xl container flex-col  items-center justify-center'>
-      <h2 classname='flex font-bold my-4 text-2xl text-slate-400 justify-center items-center'>Subscription Checkout</h2>
-      <div className='w-72 h-60 '>
-        <CardElement className='w-60 h-32 flex-col' />
-        <button className='bg-green-400 rounded-xl p-2' onClick={() => handleSubscription('price_1OYPLvSAHpY80JOT0sx7MTtn')}>
-        Subscribe
-      </button>
+    <section>
+    <div className="flex p-4 m-4">
+      <div className=" flex-col items-center justify-center">
+        <h3 className='text-slate-500 text-2xl font-semibold'>subscription plan</h3>
+        <h5 className='flex items-center justify-center text-3xl font-bold'> ₹7500.00</h5>
       </div>
     </div>
+    <form className='flex p-4 m-4'  method="POST">
+      {/* Add a hidden field with the lookup_key of your Price */}
+      <input type="hidden" name="lookup_key" value="{{PRICE_LOOKUP_KEY}}" />
+      <button className='flex-1 py-2 rounded-xl text-white items-center justify-center bg-blue-500 ' id="checkout-and-portal-button" type="submit">
+        Checkout
+      </button>
+    </form>
+  </section>
   );
 };
 

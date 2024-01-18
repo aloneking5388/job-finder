@@ -252,9 +252,9 @@ export const applyJob = async (req, res ) => {
       return res.status(404).json({ message: 'User or company not found' });
     }
 
-    // if (applyer.jobApply) {
-    //   return res.status(400).json({ message: 'User is already a member of a company' });
-    // }
+    if (company.application == userId) {
+      return res.status(400).json({ message: 'User is already a member of a company' });
+    }
       
     company.application.push(userId);
     
