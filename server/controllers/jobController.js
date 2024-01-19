@@ -239,8 +239,8 @@ export const deleteJobPost = async (req, res, next) => {
   }
 };
 
-export const applyJob = async (req, res ) => {
-  const {  jobId } = req.params;
+export const applyJob = async (req, res) => {
+  const { jobId } = req.params;
   const { userId } = req.body.user;
 
   try {
@@ -252,21 +252,24 @@ export const applyJob = async (req, res ) => {
       return res.status(404).json({ message: 'User or company not found' });
     }
 
-    if (company.application == userId) {
+    const { _id: user } = await Users.findById(userId);
+
+    if (company.application.includes(user)) {
       return res.status(400).json({ message: 'User is already a member of a company' });
     }
-      
+
     company.application.push(userId);
-    
     applyer.jobApply.push(jobId);
 
     await company.save();
     await applyer.save();
 
-    return res.status(200).json({ message: 'User applied to join the company successfully' });
-
+    return res.status(200).json({ 
+      success: true,
+      message: 'User applied to join the company successfully'
+     });
   } catch (error) {
-    console.error(error);
+    console.error('Error:', error);
     return res.status(500).json({ message: 'Internal server error' });
   }
 };

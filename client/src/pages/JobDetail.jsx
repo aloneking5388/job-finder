@@ -11,7 +11,7 @@ import { apiRequest } from "../utils";
 
 
 const JobDetail = () => {
-  const naviget = useNavigate()
+  const navigate = useNavigate()
   const { id } = useParams();
   const { user } = useSelector((state) => state.user);
   const [job, setJob] = useState(null);
@@ -59,23 +59,26 @@ const JobDetail = () => {
     }
   }
   const handleClick = async () => {
-  try { 
-    const res = await apiRequest({
-      url: "/jobs/apply-job/" + job?._id,
-      token: user?.token,
-      method: "POST"
+    try { 
+
+      const res = await apiRequest({
+        url: "/jobs/apply-job/" + job?._id,
+        token: user?.token,
+        method: "POST"
       });
-      
-      if(res?.success){
-        naviget("/Success")
+
+      if(res.success) {
+        navigate("/Success")
       } else {
-        naviget("/checkout")
+        navigate("/checkout");
       }
-        
-      } catch (error) {
-        
-      }
-  }
+      
+    } catch (error) {
+      console.error('Error:', error);
+      
+    }
+  };
+  
 
   useEffect(() => {
     id && getJobDetails()

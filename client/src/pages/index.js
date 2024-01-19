@@ -14,6 +14,7 @@ import RefundPolicy from "./RefundPolicy";
 import Success from "./Success";
 import Cancel from "./Cancel";
 import CheckOut from "./CheckOut";
+import Applications from "./Applications";
 
 export {
   FindJobs,
@@ -31,5 +32,6 @@ export {
   RefundPolicy,
   Success,
   Cancel,
-  CheckOut
+  CheckOut,
+  Applications
 };
