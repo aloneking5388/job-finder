@@ -1,119 +1,151 @@
-// import express from "express";
 import Stripe from "stripe";
+import Users from "../models/userModel.js";
+import Subscriptions from "../models/subscriptions.js"
 
-const stripe = new Stripe(process.env.STRIPE_PRIVATE_KEY);
 
-// const kaamyabjobportal = 'http://localhost:5173'
+const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
+const endpointSecret = process.env.WEBHOOK_SIGNING_SECRET;
 
-export const stripeSession = async () => {
+export const stripeSession = async (req, res) => {
 
-    const { priceId } = req.body;
+    const { userId } = req.body.user;
+    const { email: userEmail } = await Users.findById(userId);
+
+    let customer;
+    const auth0UserId = userEmail;
+
+    const existingCustomers = await stripe.customers.list({
+      email: userEmail,
+      limit: 1,
+    });
+
+    if(existingCustomers.data.length > 0) {
+      customer = existingCustomers.data[0];
+
+      const subscriptions = await stripe.subscriptions.list({
+        customer: customer.id,
+        status: "active",
+        limit: 1
+      })
+
+      if(subscriptions.data.length > 0) {
+        const stripeSession = await stripe.billingPortal.session.create({
+          customer: customer.id,
+          return_url: "https://www.kaamyabjobportal.com"
+        })
+        return res.status(409).json({ redirectUrl: stripeSession.url })
+      }
+    } else {
+      customer = await stripe.customers.create({
+        email: userEmail,
+        metadata: {
+          userId: auth0UserId,
+        }
+      });
+    }
 
     const session = await stripe.checkout.sessions.create({
-      payment_method_types: ['card'],
-      line_items: [{
-        price: priceId,
-        quantity: 1,
-      }],
-      mode: 'subscription',
-      success_url: 'http://localhost:5173/success',
-      cancel_url: 'http://localhost:5173/cancel',
+      success_url: "https://www.kaamyabjobportal.com/success",
+      cancel_url: "https://www.kaamyabjobportal.com/cancel",
+      payment_method_types: ["card"],
+      mode:"subscription",
+      billing_address_collection: "auto",
+      line_items: [
+        {
+          price_data: {
+            currency: "INR",
+            product_data: {
+              name: "Kaam Yab Job Portal",
+              description: "first 25000 applicant's either get a guaranteed job or a cash prize of 1,00,000₹ if we aren't able to land you a job.",
+            },
+            unit_amount: 7500 * 100,
+            recurring: {
+              interval: "year",
+            },
+          },
+          quantity: 1,
+        }
+      ],
+      metadata: {
+        userId: auth0UserId,
+      },
+      customer: customer.id,
     });
-  
     res.json({ id: session.id });
-//     try {
-//         const prices = await stripe.prices.list({
-//             lookup_keys: [req.body.lookup_keys],
-//             expand: ['data.product']
-//         });
+};
 
-//         const session = await stripe.checkout.sessions.create({
-//             billing_address_collection: 'auto',
-//             line_items: [
-//                 {
-//                     prices: prices.data[0].id,
-//                     quantity: 1
-//                 }
-//             ],
-//             mode: 'subscription',
-//             success_url: `${kaamyabjobportal}/?success=true&session_id={CHECKOUT_SESSION_ID}`,
-//             cancel_url: `${kaamyabjobportal}?canceled=true`
-//         });
+export const webhook = async (req, res) => {
+  const subscriptions = Subscriptions;
 
-//         res.redirect(3003, session.url);
-//     } catch (error) {
-//         console.log(error)
-//     }
-// } 
+  const payload = req.body;
+  const sig = req.headers["stripe-signature"];
+  let event;
 
-// export const portalSession = async (req, res) => {
-//     try {
-//         const { session_id } = req.body;
-//         const checkoutSession = await stripe.checkout.sessions.retrieve(session_id);
-        
-//         const returnUrl = kaamyabjobportal;
+  try {
+    event = stripe.webhooks.constructEvent(payload, sig, endpointSecret);
+  } catch (error) {
+    return res.status(400).send(`Webhook Error: ${error.message}`);
+  }
 
-//         const portalSessions = await stripe.billingPortal.sessions.create({
-//             customer: checkoutSession.customer,
-//             return_url: returnUrl
-//         });
+  if(event.type === "invoice.payment_succeeded") {
+    const invoice = event.data.object;
 
-//         res.redirect(303, portalSessions.url);
+    const subscription = await stripe.subscriptions.retrieve(
+      event.data.object.subscription
+    );
 
-//     } catch (error) {
-//         console.log(error)
-//     }
-// }
+    const customer = await stripe.customers.retrieve(
+      event.data.object.customer
+    );
 
-// export const webHook = (express.raw({ type: 'application/json' }), (request, response) => {
-//     let event = request.body;
+    if(invoice.billing_reason === "subscription_create"){
+      const subscriptionDocument = {
+        userId: customer?.metadata?.userId,
+        usbId: event.data.object.subscription,
+        endDate: subscription.current_period_end * 1000,
+      };
 
-//     const endpointSecret = 'whsec_12345';
+      const result = await subscriptions.insertOne(subscriptionDocument);
+      console.log(`A document was inserted with the _id: ${result.insertedId}`);
+      console.log(`First subscription payment successfull for Invoice ID: ${customer.email} ${customer?.metadata?.userId}`);
+    } else if(
+      invoice.billing_reason === "subscription_cycle" ||
+      invoice.billing_reason === "subscription_update"
+    ) {
+      const filter = { userId: customer?.metadata?.userId };
 
-//     if(endpointSecret) {
-//         const signature = request.headers['stripe-signature'];
+      const updateDoc = {
+        $set: {
+          endDate: subscription.current_period_end * 1000,
+          recurringSuccessFul_test: true,
+        },
+      };
 
-//         try {
-//             event = stripe.webhooks.constructEvent(
-//                 request.body,
-//                 signature,
-//                 endpointSecret
-//             );
-//         } catch (err) {
-//             console.log(`⚠️  Webhook signature verification failed.`, err.message)
-//             return response.sendStatus(400);
-//         }
-//     }
-//     let subscription;
-//     let status;
+      const result = await subscriptions.updateOne(filter, updateDoc);
 
-//     switch(event.type) {
-//         case 'customer.subscription.trial_will_end':
-//             subscription = event.data.object;
-//             console.log(`Subscription status is ${status}.`);
-//             break;
-//             case 'customer.subscription.deleted':
-//                 subscription = event.data.object;
-//                 status = subscription.status;
-//                 console.log(`Subscription status is ${status}.`);
-                
-//                 break;
-//             case 'customer.subscription.created':
-//                 subscription = event.data.object;
-//                 status = subscription.status;
-//                 console.log(`Subscription status is ${status}.`);
-                
-//                 break;
-//             case 'customer.subscription.updated':
-//                 subscription = event.data.object;
-//                 status = subscription.status;
-//                 console.log(`Subscription status is ${status}.`);
-                
-//                 break;
-//             default:
+      if(result.matchedCount === 0) {
+        console.log("Document matched but not updated (it may the same data)");
+      } else {
+        console.log(`Successfully updated the document`);
+      }
 
-//             console.log(`Unhandled event type ${event.type}.`);    
-//     }
+      console.log(`Recurring subscription payment successfull for Invoce ID: ${invoice.id}`);
+    }
 
-//     response.send() 
+    console.log(
+      new Date(subscription.current_period_end * 1000),
+      subscription.status,
+      invoice.billing_reason
+    );
+  }
+
+  if(event.type === "customer.subscription.updated") {
+    const subscription = event.data.object;
+    if(subscription.cancel_at_period_end) {
+      console.log(`Subscription ${subscription.id} was canceled`);
+    } else {
+      console.log(`Subscription ${subscription.id} was restarted.`);
+    }
+  }
+  res.status(200).end()
 }

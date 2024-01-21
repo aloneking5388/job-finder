@@ -1,6 +1,7 @@
 import express from "express";
 import { rateLimit } from "express-rate-limit";
 import { register, signIn } from "../controllers/authController.js";
+import { webhook } from "../controllers/stripe.Controller.js"
 
 //ip rate limit
 const limiter = rateLimit({
@@ -15,5 +16,6 @@ const router = express.Router();
 // Register routes
 router.post("/register", limiter, register);
 router.post("/login", signIn);
+router.post("/webhook", webhook);
 
 export default router;
