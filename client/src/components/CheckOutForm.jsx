@@ -52,4 +52,4 @@ const CheckOutForm = () => {
       </section>
     );
 }
-export default CheckOutForm 
+export default CheckOutForm ;

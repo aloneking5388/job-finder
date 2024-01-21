@@ -147,5 +147,5 @@ export const webhook = async (req, res) => {
       console.log(`Subscription ${subscription.id} was restarted.`);
     }
   }
-  res.status(200).end()
-}
+  res.status(200).end();
+};
