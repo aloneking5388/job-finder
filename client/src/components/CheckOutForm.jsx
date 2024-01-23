@@ -1,23 +1,24 @@
 import React from 'react';
-import { apiRequest } from '../utils';
+// import { apiRequest } from '../utils';
 import { loadStripe } from '@stripe/stripe-js';
-import { useSelector } from 'react-redux';
-
+// import { useSelector } from 'react-redux';
 
 
 const CheckOutForm = () => {
-  const { user } = useSelector((state) => state.user);
+  // const { user } = useSelector((state) => state.user);
   
   const handleSubscription = async () => {
 
-    const stripePromise = await loadStripe(import.meta.env.VITE_STRIPE_PUBLIC_KEY);
-    
     try {
-
-          const response = await apiRequest({
-              url: "/users/create-stripe-session-subscription",
+          const stripePromise = await loadStripe(import.meta.env.VITE_STRIPE_PUBLIC_KEY);
+          const response = await fetch(
+              "https://job-finder-snqi.onrender.com/api-v1/users/create-stripe-session-subscription",
+            {
               method: "POST",
-              token: user?.token,
+              headers: { "Content-Type": "Application/JSON" },
+              body: JSON.stringify([
+                { item: "kaam yab job portal", value: "price_1ObR6uSAHpY80JOTDTU7WpT7" },
+              ]),
             });
   
       if (response.status === 409) {

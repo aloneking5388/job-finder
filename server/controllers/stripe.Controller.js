@@ -1,5 +1,5 @@
 import Stripe from "stripe";
-import Users from "../models/userModel.js";
+// import Users from "../models/userModel.js";
 import Subscriptions from "../models/subscriptions.js"
 
 
@@ -8,8 +8,9 @@ const endpointSecret = process.env.WEBHOOK_SIGNING_SECRET;
 
 export const stripeSession = async (req, res) => {
 
-    const { userId } = req.body.user;
-    const { email: userEmail } = await Users.findById(userId);
+    // const { userId } = req.body;
+    // const { email: userEmail } = await Users.findById(userId);
+    const userEmail = "";
 
     let customer;
     const auth0UserId = userEmail;

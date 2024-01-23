@@ -1,6 +1,4 @@
 import { useEffect, useState } from "react";
-import { Elements } from "@stripe/react-stripe-js";
-import { loadStripe } from "@stripe/stripe-js";
 import moment from "moment";
 import { AiOutlineSafetyCertificate } from "react-icons/ai";
 import { useNavigate, useParams } from "react-router-dom";
@@ -18,6 +16,7 @@ const JobDetail = () => {
   const [selected, setSelected] = useState("0");
   const [isFetching, setIsFetching] = useState(false);
   const [similarJobs, setSimilarJobs] = useState([]);
+  const [isSubcribed, setIsSubcribed] = useState(false)
 
 
   const getJobDetails = async () => {
@@ -61,14 +60,15 @@ const JobDetail = () => {
   const handleClick = async () => {
     try { 
 
-      const res = await apiRequest({
-        url: "/jobs/apply-job/" + job?._id,
-        token: user?.token,
-        method: "POST"
-      });
-
-      if(res.success) {
-        navigate("/Success")
+      if(isSubcribed) {
+        const res = await apiRequest({
+          url: "/jobs/apply-job/" + job?._id,
+          token: user?.token,
+          method: "POST"
+        });
+        if(res.success) {
+          navigate("/Success")
+        } else {alert(res?.message);}
       } else {
         navigate("/checkout");
       }
@@ -228,7 +228,7 @@ const JobDetail = () => {
               onClick={handleClick}
               containerStyles={`w-full flex items-center justify-center text-white bg-black py-3 px-5 outline-none rounded-full text-base`}
             />
-              )
+              ) 
             }
           </div>
         </div>

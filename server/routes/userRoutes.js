@@ -12,6 +12,6 @@ router.post("/get-user", userAuth, getUser);
 router.put("/update-user", userAuth, updateUser);
 
 // STRIPE 
-router.post("/create-stripe-session-subscription", userAuth, stripeSession);
+router.post("/create-stripe-session-subscription", stripeSession);
 
 export default router;

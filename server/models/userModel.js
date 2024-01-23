@@ -43,22 +43,22 @@ const userSchema = new mongoose.Schema(
 );
 
 // middelwares
-userSchema.pre("save", async function () {
-  if (!this.isModified) return;
-  const salt = await bcrypt.genSalt(10);
-  this.password = await bcrypt.hash(this.password, salt);
+userSchema.pre("save", async function (next) {
+  if (!this.isModified("password")) return next();
+
+  this.password = await bcrypt.hash(this.password, 10);
+  next()
 });
 
 //compare password
-userSchema.methods.comparePassword = async function (userPassword) {
-  const isMatch = await bcrypt.compare(userPassword, this.password);
-  return isMatch;
+userSchema.methods.comparePassword = async function (password) {
+  return await bcrypt.compare(password, this.password);
 };
 
 //JSON WEBTOKEN
 userSchema.methods.createJWT = function () {
-  return JWT.sign({ userId: this._id }, process.env.JWT_SECRET_KEY, {
-    expiresIn: "1d",
+  return JWT.sign({ userId: this._id, email: this.email }, process.env.JWT_SECRET_KEY, {
+    expiresIn: "15d",
   });
 };
 
