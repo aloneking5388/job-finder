@@ -16,7 +16,7 @@ const JobDetail = () => {
   const [selected, setSelected] = useState("0");
   const [isFetching, setIsFetching] = useState(false);
   const [similarJobs, setSimilarJobs] = useState([]);
-  const [isSubcribed, setIsSubcribed] = useState(false)
+  const [isSubcribed, setIsSubcribed] = useState(true)
 
 
   const getJobDetails = async () => {
